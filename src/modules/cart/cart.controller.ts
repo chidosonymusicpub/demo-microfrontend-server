@@ -43,15 +43,11 @@ export class CartController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  async create(
-    @Request() requestAnimationFrame,
-    @Body() { id }: { id: string },
-  ): Promise<Cart> {
-    const cart = this.carts[requestAnimationFrame.user.userId];
+  async create(@Request() req, @Body() { id }: { id: string }): Promise<Cart> {
+    const cart = this.carts[req.user.userId];
     const cartItem = cart.cartItems.find(
       (cartItem) => cartItem.id === parseInt(id),
     );
-
     if (cartItem) {
       cartItem.quantity += 1;
     } else {
